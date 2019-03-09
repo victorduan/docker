@@ -1,0 +1,16 @@
+version: "2"
+services:
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Americas/Los_Angeles
+    volumes:
+      - bazarr_config:/config
+      - movies:/movies
+      - tv:/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped
