@@ -1,0 +1,73 @@
+version: "2"
+services:
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Americas/Los_Angeles
+    volumes:
+      - bazarr_config:/config
+      - movies:/movies
+      - tv:/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+    
+  nzbget:
+    image: linuxserver/nzbget
+    container_name: nzbget
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Americas/Los_Angeles
+    volumes:
+      - nzbget_data:/config
+      - nzbget_downloads:/downloads
+    ports:
+      - 6789:6789
+    restart: unless-stopped
+    
+  tautulli:
+    image: linuxserver/tautulli
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Americas/Los_Angeles
+    volumes:
+      - tautulli_config:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+    
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Americas/Los_Angeles
+    volumes:
+      - radarr_config:/config
+      - movies:/movies
+      - nzbget_downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Americas/Los_Angeles
+    volumes:
+      - sonarr_config:/config
+      - tv:/tv
+      - nzbget_downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
